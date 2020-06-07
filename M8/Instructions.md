@@ -179,35 +179,37 @@ The main tasks for this exercise are as follows:
 
 >  **Result**: After completing this exercise, you should have validated service chaining between peered virtual networks.
 
-#### Task 3: Verify connectivity between spokes
+#### Task 3: Verify connectivity via **Network Watcher**
 
-1. In the hub menu in the Azure portal, click **All services**.
+1. At the top of the page search for **Network Watcher**.
 
-1. In the **All services** menu, in the **Filter** text box, type **Network Watcher** and press **Enter**.
+1. Click **Next Hop** menu, under **Network diagnostic tools** 
 
-1. In the list of results, click **Network Watcher**.
+1. Choose **AADLab0801-LabRG** for **Resource Group**.
 
-1. On the **Network Watcher** blade, in the **NETWORK DIAGNOSTIC TOOLS** section, click **Connection troubleshoot**.
+1. Choose **VM-A** for **Virtual Machine** section, click **Connection troubleshoot**.
 
-1. On the **Network Watcher - Connection troubleshoot** blade, perform the following tasks:
+1. On the **Network Watcher | Next hop** blade, perform the following tasks:
 
     - Leave the **Subscription** drop-down list entry set to its default value.
 
-    - In the **Resource group** drop-down list, select the **AADesignLab08-spoke1-vnet-rg** entry.
+    - In the **Resource group** drop-down list, select the **AADLab0801-LabRGg** entry.
 
-    - In the **Virtual machine** drop-down list, leave the default entry.
+    - In the **Virtual machine** drop-down list, choose **VM-A**.
+    
+    - In the **Network Interface** drop-down list, set to its default value.
+    
+    - In the **Source Ip Addess** option, set to its default value.
 
-    - Ensure that the **Destination** option is set to **Specify manually**.
+    - In the  **Destination IP Address** type **10.1.1.4**.
+    
+        - Ensure that the result shows **Next Hop Type** as **Virtual Appliance**. This means traffic is passing over 172.16.2.4 (VM-R) from VM-A to VM-B
 
-    - In the **URI, FQDN, or IPv4** text box, type **10.2.0.68** entry.
+    - In the  **Destination IP Address** replace **10.1.1.4** with **10.2.2.4**.
+    
+      - Ensure that the result shows **Next Hop Type** as **Virtual Network Peering **. This means traffic is passing over VNet Peering from VM-A to VM-X
 
-    - In the **Destination Port** text, type 3389.
-
-    - Click the **Check** button.
-
-1. Wait until results of the connectivity check are returned and verify that the status is **Reachable**.
-
-    > **Note**: If this is the first time you are using Network Watcher, the check can take up to 5 minutes.
+    > **Note**: This last task proves that Route Table associated with VN01SN01 is only working from that subnet to its target 10.1.1.0/24 network. When you try to reach 10.2.2.0/24 subnet, VNet Peering still at large. 
 
 ## Exercise 5: Remove lab resources
 
