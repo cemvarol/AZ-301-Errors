@@ -125,7 +125,7 @@ Run these commands below on **powershell** console of that VM
 
 ----
 
-4. Follow the steps to complete RRAS setting... Check this [image](https://github.com/cemvarol/AZ-301/blob/master/T4M3/NewLab/RouterConfig.png)
+4. Follow the steps to complete RRAS setting... Check this [image](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/RouterConfig.png)
 
 
 
