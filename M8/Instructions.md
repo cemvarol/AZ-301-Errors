@@ -185,10 +185,6 @@ The main tasks for this exercise are as follows:
 
 1. Click **Next Hop** menu, under **Network diagnostic tools** 
 
-1. Choose **AADLab0801-LabRG** for **Resource Group**.
-
-1. Choose **VM-A** for **Virtual Machine** section, click **Connection troubleshoot**.
-
 1. On the **Network Watcher | Next hop** blade, perform the following tasks:
 
     - Leave the **Subscription** drop-down list entry set to its default value.
