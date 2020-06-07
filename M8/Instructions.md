@@ -91,11 +91,11 @@ The main tasks for this exercise are as follows:
 
     - Route name: **custom-route-to-VNet02**
 
-    - Address prefix: **10.0.0.0/22**
+    - Address prefix: **10.1.1.0/24**
 
     - Next hop type: **Virtual appliance**
 
-    - Next hop address: **10.0.1.4**
+    - Next hop address: **172.16.2.4**
 
 3. In the Azure portal, associate the route table with the **subnet-1** of the **VNet01**.
 
