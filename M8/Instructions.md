@@ -93,7 +93,7 @@ The main tasks for this exercise are as follows:
 
     - Route name: **Custom-route-to-VNet02-Subnet01**
 
-    - Address prefix: **10.1.1.0/24**
+    - Address prefix: **172.16.1.0/24**
 
     - Next hop type: **Virtual appliance**
 
