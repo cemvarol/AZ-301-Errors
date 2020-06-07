@@ -143,7 +143,7 @@ The main tasks for this exercise are as follows:
 
 #### Task 1: Configure Windows Firewall with Advanced Security on the target Azure VMs
   
-1. On the lab computer, from the Azure portal, start a Remote Desktop session to **VM-A** Azure VM. 
+1. On the lab computer, from the Azure portal, start a Remote Desktop session to **VM-A**. 
 
 2. When prompted to authenticate, specify the following credentials:
 
@@ -157,7 +157,7 @@ The main tasks for this exercise are as follows:
 
 #### Task 2: Test service chaining between peered virtual networks
   
-1. On the lab computer, from the Azure portal, start a Remote Desktop session to **VM-B** Azure VM. 
+1. On the lab computer, from the Azure portal, start a Remote Desktop session to **VM-B**. 
 
 1. When prompted to authenticate, specify the following credentials:
 
