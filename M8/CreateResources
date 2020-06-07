@@ -1,32 +1,39 @@
 #Create Variables
+#Get Login Name as prefix
 a=$(az ad signed-in-user show --query userPrincipalName)
 A=$(echo "$a" | sed -e 's/\(.*\)/\L\1/')
 B=${A:$(echo `expr index "$A" @`)}
 C=${B:: -24}
 D=$(echo "$C"rg01)
 E=$(echo "$C"rg02)
-RG1=az3000401-LabRG
-RG2=az3000402-LabRG
-VNet1=az3000401-vnet
-VNet2=az3000402-vnet
+#Provide Resource Values
+RG1=AADLab0801-LabRG
+RG2=AADLab0802-LabRG
+VNet1=Vnet01
+VNet2=VNet02 
 Nsg1=NSG1
 Nsg2=NSG2
 L=eastus2
-VM1=az3000401-vm1
-VM2=az3000401-vm2-R
-VM3=az3000402-vm1
-OS=Win2016DataCenter
+VM1=VM-A
+VM2=VM-R
+VM3=VM-B
+#Set VM Configuration
+OS=Win2019DataCenter
 VMSize=standard_B2ms
-Pip1=az3000401-pip1
-Pip2=az3000401-pip2
-Pip3=az3000402-pip1
-AP1="10.0.0.0/22"
-AP2="10.0.4.0/22"
-subnet11="10.0.0.0/24"
-subnet12="10.0.1.0/24"
-subnet21="10.0.4.0/24"
+Pip1=$(echo "$VM1"-Pip)
+Pip2=$(echo "$VM2"-Pip)
+Pip3=$(echo "$VM3"-Pip)
+#Set VNet Configuration
+AP1="172.16.0.0/16"
+AP2="10.1.0.0/16"
+subnet11="172.16.1.0/24"
+subnet12="172.16.2.0/24"
+subnet21="10.1.1.0/24"
+#Provide VM Credentials
 user=Student
 pass=Pa55w.rd1234
+
+#Create Resources
 
 #Create RGs
 az group create -n $RG1 -l $L
@@ -56,16 +63,16 @@ export SUBNETID2=$(az network vnet subnet show --resource-group $RG1 --vnet-name
 export SUBNETN2=$(az network vnet subnet show --resource-group $RG1 --vnet-name $VNet1 --name subnet-2 --query name -o tsv)
 
 
-#Assign NSGs
+#Assign NSGs to VNets
 az network vnet subnet update -g $RG1 --vnet-name $VNet1 -n $SUBNETN1 --network-security-group $Nsg1
 az network vnet subnet update -g $RG1 --vnet-name $VNet1 -n $SUBNETN2 --network-security-group $Nsg1
 
 
 
-#Create VMs
-az vm create --resource-group $RG1 -n $VM1 -l $L --image $OS --admin-username $user --admin-password $pass --size $VMSize --public-ip-address $Pip1 --public-ip-address-allocation static --subnet $SUBNETID1 --boot-diagnostics-storage $D --license-type Windows_Server --nsg ""
+#Create VMs on VNet01
+az vm create --resource-group $RG1 -n $VM1 -l $L --image $OS --admin-username $user --admin-password $pass --size $VMSize --public-ip-address $Pip1 --public-ip-address-allocation static --subnet $SUBNETID1 --boot-diagnostics-storage $D --license-type Windows_Server --nsg "" --no-wait
 
-az vm create --resource-group $RG1 -n $VM2 -l $L --image $OS --admin-username $user --admin-password $pass --size $VMSize --public-ip-address $Pip2 --public-ip-address-allocation static --subnet $SUBNETID2 --boot-diagnostics-storage $D --license-type Windows_Server --nsg ""
+az vm create --resource-group $RG1 -n $VM2 -l $L --image $OS --admin-username $user --admin-password $pass --size $VMSize --public-ip-address $Pip2 --public-ip-address-allocation static --subnet $SUBNETID2 --boot-diagnostics-storage $D --license-type Windows_Server --nsg "" --no-wait
 
 
 
@@ -80,9 +87,13 @@ export SUBNETN3=$(az network vnet subnet show --resource-group $RG2 --vnet-name 
 #Assign NSGs
 az network vnet subnet update -g $RG2 --vnet-name $VNet2 -n $SUBNETN3 --network-security-group $Nsg2
 
-#Create Other VM
+#Create VM on VNet02
 
 az vm create --resource-group $RG2 -n $VM3 -l $L --image $OS --admin-username $user --admin-password $pass --size $VMSize --public-ip-address $Pip3 --public-ip-address-allocation static --subnet $SUBNETID3 --boot-diagnostics-storage $E --license-type Windows_Server --nsg ""
+
+
+
+
 
 
 
