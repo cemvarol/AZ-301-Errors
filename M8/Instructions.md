@@ -73,7 +73,7 @@ The main tasks for this exercise are as follows:
 
 #### Task 2: Configure user defined routing 
 
-1. In the Azure portal, create a new route table with the following settings:
+1. In the Azure portal, Create a **New Route Table** with the following settings:
 
     - Name: **AADLab0801-rt1**
 
