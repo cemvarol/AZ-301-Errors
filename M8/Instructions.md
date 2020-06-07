@@ -179,35 +179,35 @@ The main tasks for this exercise are as follows:
 
 >  **Result**: After completing this exercise, you should have validated service chaining between peered virtual networks.
 
-Task 3: Verify connectivity between spokes
-In the hub menu in the Azure portal, click All services.
+#### Task 3: Verify connectivity between spokes
 
-In the All services menu, in the Filter text box, type Network Watcher and press Enter.
+1. In the hub menu in the Azure portal, click **All services**.
 
-In the list of results, click Network Watcher.
+1. In the **All services** menu, in the **Filter** text box, type **Network Watcher** and press **Enter**.
 
-On the Network Watcher blade, in the NETWORK DIAGNOSTIC TOOLS section, click Connection troubleshoot.
+1. In the list of results, click **Network Watcher**.
 
-On the Network Watcher - Connection troubleshoot blade, perform the following tasks:
+1. On the **Network Watcher** blade, in the **NETWORK DIAGNOSTIC TOOLS** section, click **Connection troubleshoot**.
 
-Leave the Subscription drop-down list entry set to its default value.
+1. On the **Network Watcher - Connection troubleshoot** blade, perform the following tasks:
 
-In the Resource group drop-down list, select the AADesignLab08-spoke1-vnet-rg entry.
+    - Leave the **Subscription** drop-down list entry set to its default value.
 
-In the Virtual machine drop-down list, leave the default entry.
+    - In the **Resource group** drop-down list, select the **AADesignLab08-spoke1-vnet-rg** entry.
 
-Ensure that the Destination option is set to Specify manually.
+    - In the **Virtual machine** drop-down list, leave the default entry.
 
-In the URI, FQDN, or IPv4 text box, type 10.2.0.68 entry.
+    - Ensure that the **Destination** option is set to **Specify manually**.
 
-In the Destination Port text, type 3389.
+    - In the **URI, FQDN, or IPv4** text box, type **10.2.0.68** entry.
 
-Click the Check button.
+    - In the **Destination Port** text, type 3389.
 
-Wait until results of the connectivity check are returned and verify that the status is Reachable.
+    - Click the **Check** button.
 
-Note: If this is the first time you are using Network Watcher, the check can take up to 5 minutes.
+1. Wait until results of the connectivity check are returned and verify that the status is **Reachable**.
 
+    > **Note**: If this is the first time you are using Network Watcher, the check can take up to 5 minutes.
 
 ## Exercise 5: Remove lab resources
 
