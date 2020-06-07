@@ -1,0 +1,826 @@
+cemvarol@Azure:~$ git clone https://github.com/mspnp/reference-architectures.git
+Cloning into 'reference-architectures'...
+remote: Enumerating objects: 167, done.
+remote: Counting objects: 100% (167/167), done.
+remote: Compressing objects: 100% (87/87), done.
+remote: Total 9393 (delta 93), reused 138 (delta 76), pack-reused 9226
+Receiving objects: 100% (9393/9393), 131.81 MiB | 36.68 MiB/s, done.
+Resolving deltas: 100% (5716/5716), done.
+Checking connectivity... done.
+cemvarol@Azure:~$ cat ./reference-architectures/virtual-machines/single-vm/parameters/windows/single-vm.json
+{
+  "$schema": "https://raw.githubusercontent.com/mspnp/template-building-blocks/master/schemas/buildingBlocks.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "buildingBlocks": {
+      "value": [
+        {
+          "type": "VirtualNetwork",
+          "settings": [
+            {
+              "name": "ra-single-windows-vm-vnet",
+              "addressPrefixes": [
+                "10.0.0.0/16"
+              ],
+              "subnets": [
+                {
+                  "name": "web",
+                  "addressPrefix": "10.0.1.0/24"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "NetworkSecurityGroup",
+          "settings": [
+            {
+              "name": "ra-single-windows-vm-nsg",
+              "securityRules": [
+                {
+                  "name": "RDP"
+                },
+                {
+                  "name": "HTTP"
+                }
+              ],
+              "virtualNetworks": [
+                {
+                  "name": "ra-single-windows-vm-vnet",
+                  "subnets": [
+                    "web"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "VirtualMachine",
+          "settings": {
+            "vmCount": 1,
+            "namePrefix": "ra-single-windows",
+            "computerNamePrefix": "web",
+            "size": "Standard_DS1_v2",
+            "adminUsername": "",
+            "adminPassword": "",
+            "virtualNetwork": {
+              "name": "ra-single-windows-vm-vnet"
+            },
+            "nics": [
+              {
+                "subnetName": "web"
+              }
+            ],
+            "osType": "windows",
+            "dataDisks": {
+              "count": 2
+            }
+          }
+        },
+        {
+          "type": "VirtualMachineExtension",
+          "settings": [
+            {
+              "vms": [
+                "ra-single-windows-vm1"
+              ],
+              "extensions": [
+                {
+                  "name": "format-disks",
+                  "publisher": "Microsoft.Compute",
+                  "type": "CustomScriptExtension",
+                  "typeHandlerVersion": "1.8",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "fileUris": [
+                      "https://raw.githubusercontent.com/mspnp/reference-architectures/master/scripts/windows/format-disk.ps1",
+                      "https://raw.githubusercontent.com/mspnp/reference-architectures/master/virtual-machines/single-vm/extensions/windows/format-disks.ps1"
+                    ]
+                  },
+                  "protectedSettings": {
+                    "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File format-disks.ps1"
+                  }
+                },
+                {
+                  "name": "iis-config-ext",
+                  "publisher": "Microsoft.Powershell",
+                  "type": "DSC",
+                  "typeHandlerVersion": "2.7",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "configuration": {
+                      "url": "https://github.com/mspnp/reference-architectures/raw/master/scripts/windows/dsc/iisaspnet.ps1.zip",
+                      "script": "iisaspnet.ps1",
+                      "function": "iisaspnet"
+                    }
+                  },
+                  "protectedSettings": {}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}cemvarol@Azure:~$ SUBSCRIPTION_ID=$(az account list --query "[0].id" --output tsv | tr -d '"')
+cemvarol@Azure:~$ RESOURCE_GROUP='AADesignLab0303-RG'
+cemvarol@Azure:~$ LOCATION=$(az group list --query "[?name == 'AADesignLab0301-RG'].location" --output tsv)
+cemvarol@Azure:~$ az group create --name $RESOURCE_GROUP --location $LOCATION
+{
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG",
+  "location": "eastus2",
+  "managedBy": null,
+  "name": "AADesignLab0303-RG",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+cemvarol@Azure:~$ sed -i.bak1 's/"adminUsername": ""/"adminUsername": "Student"/' ./reference-architectures/virtual-machines/single-vm/parameters/windows/single-vm.json
+cemvarol@Azure:~$ sed -i.bak2 's/"adminPassword": ""/"adminPassword": "Pa55w.rd1234"/' ./reference-architectures/virtual-machines/single-vm/parameters/windows/single-vm.json
+cemvarol@Azure:~$ sed -i.bak3 's/"Standard_DS1_v2"/"Standard_D2s_v3"/g' ./reference-architectures/virtual-machines/single-vm/parameters/windows/single-vm.json
+cemvarol@Azure:~$ cat ./reference-architectures/virtual-machines/single-vm/parameters/windows/single-vm.json
+{
+  "$schema": "https://raw.githubusercontent.com/mspnp/template-building-blocks/master/schemas/buildingBlocks.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "buildingBlocks": {
+      "value": [
+        {
+          "type": "VirtualNetwork",
+          "settings": [
+            {
+              "name": "ra-single-windows-vm-vnet",
+              "addressPrefixes": [
+                "10.0.0.0/16"
+              ],
+              "subnets": [
+                {
+                  "name": "web",
+                  "addressPrefix": "10.0.1.0/24"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "NetworkSecurityGroup",
+          "settings": [
+            {
+              "name": "ra-single-windows-vm-nsg",
+              "securityRules": [
+                {
+                  "name": "RDP"
+                },
+                {
+                  "name": "HTTP"
+                }
+              ],
+              "virtualNetworks": [
+                {
+                  "name": "ra-single-windows-vm-vnet",
+                  "subnets": [
+                    "web"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "VirtualMachine",
+          "settings": {
+            "vmCount": 1,
+            "namePrefix": "ra-single-windows",
+            "computerNamePrefix": "web",
+            "size": "Standard_D2s_v3",
+            "adminUsername": "Student",
+            "adminPassword": "Pa55w.rd1234",
+            "virtualNetwork": {
+              "name": "ra-single-windows-vm-vnet"
+            },
+            "nics": [
+              {
+                "subnetName": "web"
+              }
+            ],
+            "osType": "windows",
+            "dataDisks": {
+              "count": 2
+            }
+          }
+        },
+        {
+          "type": "VirtualMachineExtension",
+          "settings": [
+            {
+              "vms": [
+                "ra-single-windows-vm1"
+              ],
+              "extensions": [
+                {
+                  "name": "format-disks",
+                  "publisher": "Microsoft.Compute",
+                  "type": "CustomScriptExtension",
+                  "typeHandlerVersion": "1.8",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "fileUris": [
+                      "https://raw.githubusercontent.com/mspnp/reference-architectures/master/scripts/windows/format-disk.ps1",
+                      "https://raw.githubusercontent.com/mspnp/reference-architectures/master/virtual-machines/single-vm/extensions/windows/format-disks.ps1"
+                    ]
+                  },
+                  "protectedSettings": {
+                    "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File format-disks.ps1"
+                  }
+                },
+                {
+                  "name": "iis-config-ext",
+                  "publisher": "Microsoft.Powershell",
+                  "type": "DSC",
+                  "typeHandlerVersion": "2.7",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "configuration": {
+                      "url": "https://github.com/mspnp/reference-architectures/raw/master/scripts/windows/dsc/iisaspnet.ps1.zip",
+                      "script": "iisaspnet.ps1",
+                      "function": "iisaspnet"
+                    }
+                  },
+                  "protectedSettings": {}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}cemvarol@Azure:~$ azbb -g $RESOURCE_GROUP -s $SUBSCRIPTION_ID -l $LOCATION -p ./reference-architectures/virtual-machines/single-vm/parameters/windows/single-vm.json --deploy
+
+  parameters written to /home/cemvarol/single-vm-output-01.json
+
+
+  parameters written to /home/cemvarol/single-vm-output-02.json
+
+
+  parameters written to /home/cemvarol/single-vm-output-03.json
+
+
+  parameters written to /home/cemvarol/single-vm-output-04.json
+
+This command is implicitly deprecated because command group 'group deployment' is deprecated and will be removed in a future release. Use 'deployment group' instead.
+{- Finished ..
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-01-vnet",
+  "location": null,
+  "name": "bb-01-vnet",
+  "properties": {
+    "correlationId": "60c499ad-3926-469d-8721-ec55cbfbb4d7",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-01-vnet-vnet-0-h5k6lfo7kuln2",
+            "resourceGroup": "AADesignLab0303-RG",
+            "resourceName": "bb-01-vnet-vnet-0-h5k6lfo7kuln2",
+            "resourceType": "Microsoft.Resources/deployments"
+          }
+        ],
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/workaround/providers/Microsoft.Resources/deployments/bb-01-vnet-vnetPeering-0-h5k6lfo7kuln2",
+        "resourceGroup": "workaround",
+        "resourceName": "bb-01-vnet-vnetPeering-0-h5k6lfo7kuln2",
+        "resourceType": "Microsoft.Resources/deployments"
+      }
+    ],
+    "duration": "PT14.9240444S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/virtualNetworks/ra-single-windows-vm-vnet",
+        "resourceGroup": "AADesignLab0303-RG"
+      }
+    ],
+    "outputs": {},
+    "parameters": {
+      "deploymentContext": {
+        "type": "Object",
+        "value": {
+          "parentTemplateUniqueString": "bb-01-vnet",
+          "sasToken": ""
+        }
+      },
+      "virtualNetworkPeerings": {
+        "type": "Array",
+        "value": []
+      },
+      "virtualNetworks": {
+        "type": "Array",
+        "value": [
+          {
+            "location": "eastus2",
+            "name": "ra-single-windows-vm-vnet",
+            "properties": {
+              "addressSpace": {
+                "addressPrefixes": [
+                  "10.0.0.0/16"
+                ]
+              },
+              "dhcpOptions": {
+                "dnsServers": []
+              },
+              "subnets": [
+                {
+                  "name": "web",
+                  "properties": {
+                    "addressPrefix": "10.0.1.0/24",
+                    "serviceEndpoints": []
+                  }
+                }
+              ]
+            },
+            "resourceGroupName": "AADesignLab0303-RG",
+            "subscriptionId": "cd5890b1-e2d6-4c20-85d4-93efa89ac524",
+            "tags": {}
+          }
+        ]
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "14984480671242251745",
+    "templateLink": {
+      "contentVersion": "1.0.0.0",
+      "uri": "https://raw.githubusercontent.com/mspnp/template-building-blocks/v2.2.0/templates/buildingBlocks/virtualNetworks/virtualNetworks.json"
+    },
+    "timestamp": "2020-06-07T12:21:11.513820+00:00"
+  },
+  "resourceGroup": "AADesignLab0303-RG",
+  "type": "Microsoft.Resources/deployments"
+}
+This command is implicitly deprecated because command group 'group deployment' is deprecated and will be removed in a future release. Use 'deployment group' instead.
+{- Finished ..
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-02-nsg",
+  "location": null,
+  "name": "bb-02-nsg",
+  "properties": {
+    "correlationId": "5e60424e-2e08-4856-b128-fc7d76a09a04",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-02-nsg-nsg-0-yky2qbkz2ynig",
+            "resourceGroup": "AADesignLab0303-RG",
+            "resourceName": "bb-02-nsg-nsg-0-yky2qbkz2ynig",
+            "resourceType": "Microsoft.Resources/deployments"
+          }
+        ],
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-02-nsg-associateSubnets-yky2qbkz2ynig",
+        "resourceGroup": "AADesignLab0303-RG",
+        "resourceName": "bb-02-nsg-associateSubnets-yky2qbkz2ynig",
+        "resourceType": "Microsoft.Resources/deployments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-02-nsg-associateSubnets-yky2qbkz2ynig",
+            "resourceGroup": "AADesignLab0303-RG",
+            "resourceName": "bb-02-nsg-associateSubnets-yky2qbkz2ynig",
+            "resourceType": "Microsoft.Resources/deployments"
+          }
+        ],
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-02-nsg-associateNetworkInterfaces-yky2qbkz2ynig",
+        "resourceGroup": "AADesignLab0303-RG",
+        "resourceName": "bb-02-nsg-associateNetworkInterfaces-yky2qbkz2ynig",
+        "resourceType": "Microsoft.Resources/deployments"
+      }
+    ],
+    "duration": "PT27.5644473S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/networkSecurityGroups/ra-single-windows-vm-nsg",
+        "resourceGroup": "AADesignLab0303-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/virtualNetworks/ra-single-windows-vm-vnet/subnets/web",
+        "resourceGroup": "AADesignLab0303-RG"
+      }
+    ],
+    "outputs": {},
+    "parameters": {
+      "deploymentContext": {
+        "type": "Object",
+        "value": {
+          "parentTemplateUniqueString": "bb-02-nsg",
+          "sasToken": ""
+        }
+      },
+      "networkInterfaces": {
+        "type": "Array",
+        "value": []
+      },
+      "networkSecurityGroups": {
+        "type": "Array",
+        "value": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/networkSecurityGroups/ra-single-windows-vm-nsg",
+            "location": "eastus2",
+            "name": "ra-single-windows-vm-nsg",
+            "properties": {
+              "securityRules": [
+                {
+                  "name": "RDP",
+                  "properties": {
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": 3389,
+                    "direction": "Inbound",
+                    "priority": 100,
+                    "protocol": "TCP",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                  }
+                },
+                {
+                  "name": "HTTP",
+                  "properties": {
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": 80,
+                    "direction": "Inbound",
+                    "priority": 110,
+                    "protocol": "TCP",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                  }
+                }
+              ]
+            },
+            "resourceGroup": "AADesignLab0303-RG",
+            "resourceGroupName": "AADesignLab0303-RG",
+            "subscriptionId": "cd5890b1-e2d6-4c20-85d4-93efa89ac524",
+            "tags": {}
+          }
+        ]
+      },
+      "subnets": {
+        "type": "Array",
+        "value": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/virtualNetworks/ra-single-windows-vm-vnet/subnets/web",
+            "location": "eastus2",
+            "name": "web",
+            "properties": {
+              "networkSecurityGroup": {
+                "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/networkSecurityGroups/ra-single-windows-vm-nsg",
+                "resourceGroup": "AADesignLab0303-RG"
+              }
+            },
+            "resourceGroup": "AADesignLab0303-RG",
+            "resourceGroupName": "AADesignLab0303-RG",
+            "subscriptionId": "cd5890b1-e2d6-4c20-85d4-93efa89ac524",
+            "virtualNetwork": "ra-single-windows-vm-vnet"
+          }
+        ]
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "17870161346894279916",
+    "templateLink": {
+      "contentVersion": "1.0.0.0",
+      "uri": "https://raw.githubusercontent.com/mspnp/template-building-blocks/v2.2.0/templates/buildingBlocks/networkSecurityGroups/networkSecurityGroups.json"
+    },
+    "timestamp": "2020-06-07T12:22:02.310597+00:00"
+  },
+  "resourceGroup": "AADesignLab0303-RG",
+  "type": "Microsoft.Resources/deployments"
+}
+This command is implicitly deprecated because command group 'group deployment' is deprecated and will be removed in a future release. Use 'deployment group' instead.
+{- Finished ..
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Resources/deployments/bb-03-vm",
+  "location": null,
+  "name": "bb-03-vm",
+  "properties": {
+    "correlationId": "b44f10d1-6a27-424d-ad56-d2bf8d17e3fd",
+    "debugSetting": null,
+    "dependencies": [],
+    "duration": "PT1M41.7021289S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Compute/virtualMachines/ra-single-windows-vm1",
+        "resourceGroup": "AADesignLab0303-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/networkInterfaces/ra-single-windows-vm1-nic1",
+        "resourceGroup": "AADesignLab0303-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/publicIPAddresses/ra-single-windows-vm1-nic1-pip",
+        "resourceGroup": "AADesignLab0303-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Storage/storageAccounts/vmbsudrdzqi4c4gdiag1",
+        "resourceGroup": "AADesignLab0303-RG"
+      }
+    ],
+    "outputs": {},
+    "parameters": {
+      "deploymentContext": {
+        "type": "Object",
+        "value": {
+          "parentTemplateUniqueString": "bb-03-vm",
+          "sasToken": ""
+        }
+      },
+      "secrets": {
+        "type": "SecureObject"
+      },
+      "virtualMachines": {
+        "type": "Array",
+        "value": [
+          {
+            "applicationGateways": [],
+            "autoScaleSettings": [],
+            "availabilitySet": [],
+            "diagnosticStorageAccounts": [
+              {
+                "kind": "Storage",
+                "location": "eastus2",
+                "name": "vmbsudrdzqi4c4gdiag1",
+                "properties": {
+                  "encryption": {
+                    "keySource": "Microsoft.Storage",
+                    "services": {
+                      "blob": {
+                        "enabled": true
+                      },
+                      "file": {
+                        "enabled": true
+                      }
+                    }
+                  },
+                  "supportsHttpsTrafficOnly": true
+                },
+                "resourceGroupName": "AADesignLab0303-RG",
+                "sku": {
+                  "name": "Standard_LRS"
+                },
+                "subscriptionId": "cd5890b1-e2d6-4c20-85d4-93efa89ac524"
+              }
+            ],
+            "loadBalancers": [],
+            "networkInterfaces": [
+              {
+                "location": "eastus2",
+                "name": "ra-single-windows-vm1-nic1",
+                "properties": {
+                  "dnsSettings": {
+                    "appliedDnsServers": [],
+                    "dnsServers": []
+                  },
+                  "enableAcceleratedNetworking": false,
+                  "enableIPForwarding": false,
+                  "ipConfigurations": [
+                    {
+                      "name": "ipconfig1",
+                      "properties": {
+                        "privateIPAddressVersion": "IPv4",
+                        "privateIPAllocationMethod": "Dynamic",
+                        "publicIPAddress": {
+                          "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/publicIPAddresses/ra-single-windows-vm1-nic1-pip",
+                          "resourceGroup": "AADesignLab0303-RG"
+                        },
+                        "subnet": {
+                          "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/virtualNetworks/ra-single-windows-vm-vnet/subnets/web",
+                          "resourceGroup": "AADesignLab0303-RG"
+                        }
+                      }
+                    }
+                  ],
+                  "primary": true
+                },
+                "resourceGroupName": "AADesignLab0303-RG",
+                "subscriptionId": "cd5890b1-e2d6-4c20-85d4-93efa89ac524"
+              }
+            ],
+            "publicIpAddresses": [
+              {
+                "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/publicIPAddresses/ra-single-windows-vm1-nic1-pip",
+                "location": "eastus2",
+                "name": "ra-single-windows-vm1-nic1-pip",
+                "properties": {
+                  "publicIPAddressVersion": "IPv4",
+                  "publicIPAllocationMethod": "Static"
+                },
+                "resourceGroup": "AADesignLab0303-RG",
+                "resourceGroupName": "AADesignLab0303-RG",
+                "sku": {
+                  "name": "Standard"
+                },
+                "subscriptionId": "cd5890b1-e2d6-4c20-85d4-93efa89ac524",
+                "zones": []
+              }
+            ],
+            "scaleSets": [],
+            "storageAccounts": [],
+            "virtualMachines": [
+              {
+                "encryptionSettings": {
+                  "useExtension": false
+                },
+                "extensions": [],
+                "location": "eastus2",
+                "name": "ra-single-windows-vm1",
+                "plan": null,
+                "properties": {
+                  "availabilitySet": null,
+                  "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                      "enabled": true,
+                      "storageUri": "http://vmbsudrdzqi4c4gdiag1.blob.core.windows.net"
+                    }
+                  },
+                  "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                  },
+                  "networkProfile": {
+                    "networkInterfaces": [
+                      {
+                        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0303-RG/providers/Microsoft.Network/networkInterfaces/ra-single-windows-vm1-nic1",
+                        "properties": {
+                          "primary": true
+                        },
+                        "resourceGroup": "AADesignLab0303-RG"
+                      }
+                    ]
+                  },
+                  "osProfile": {
+                    "adminPassword": "$AUTHENTICATION$",
+                    "adminUsername": "Student",
+                    "computerName": "web1",
+                    "secrets": [],
+                    "windowsConfiguration": {
+                      "provisionVmAgent": true
+                    }
+                  },
+                  "storageProfile": {
+                    "dataDisks": [
+                      {
+                        "caching": "None",
+                        "createOption": "empty",
+                        "diskSizeGB": 127,
+                        "lun": 0,
+                        "managedDisk": {
+                          "storageAccountType": "Premium_LRS"
+                        },
+                        "name": "ra-single-windows-vm1-dataDisk1"
+                      },
+                      {
+                        "caching": "None",
+                        "createOption": "empty",
+                        "diskSizeGB": 127,
+                        "lun": 1,
+                        "managedDisk": {
+                          "storageAccountType": "Premium_LRS"
+                        },
+                        "name": "ra-single-windows-vm1-dataDisk2"
+                      }
+                    ],
+                    "imageReference": {
+                      "offer": "WindowsServer",
+                      "publisher": "MicrosoftWindowsServer",
+                      "sku": "2016-Datacenter",
+                      "version": "latest"
+                    },
+                    "osDisk": {
+                      "caching": "ReadWrite",
+                      "createOption": "fromImage",
+                      "managedDisk": {
+                        "storageAccountType": "Premium_LRS"
+                      },
+                      "name": "ra-single-windows-vm1-os",
+                      "osType": "windows"
+                    }
+                  }
+                },
+                "resourceGroupName": "AADesignLab0303-RG",
+                "subscriptionId": "cd5890b1-e2d6-4c20-85d4-93efa89ac524",
+                "tags": {},
+                "zones": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "4340206568863123682",
+    "templateLink": {
+      "contentVersion": "1.0.0.0",
+      "uri": "https://raw.githubusercontent.com/mspnp/template-building-blocks/v2.2.0/templates/buildingBlocks/virtualMachines/virtualMachines.json"
+    },
+    "timestamp": "2020-06-07T12:23:58.422495+00:00"
+  },
+  "resourceGroup": "AADesignLab0303-RG",
+  "type": "Microsoft.Resources/deployments"
+}
+This command is implicitly deprecated because command group 'group deployment' is deprecated and will be removed in a future release. Use 'deployment group' instead.
+Deployment failed. Correlation ID: 6a592d90-d187-4ce8-8b36-4e7c44bfe7ef. {
+  "status": "Failed",
+  "error": {
+    "code": "ResourceDeploymentFailure",
+    "message": "The resource operation completed with terminal provisioning state 'Failed'.",
+    "details": [
+      {
+        "code": "DeploymentFailed",
+        "message": "At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage details.",
+        "details": [
+          {
+            "code": "Conflict",
+            "message": "{\r\n  \"status\": \"Failed\",\r\n  \"error\": {\r\n    \"code\": \"ResourceDeploymentFailure\",\r\n    \"message\": \"The resource operation completed with terminal provisioning state 'Failed'.\",\r\n    \"details\": [\r\n      {\r\n        \"code\": \"DeploymentFailed\",\r\n        \"message\": \"At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage details.\",\r\n        \"details\": [\r\n          {\r\n            \"code\": \"NotFound\",\r\n            \"message\": \"{\\r\\n  \\\"error\\\": {\\r\\n    \\\"code\\\": \\\"ParentResourceNotFound\\\",\\r\\n    \\\"message\\\": \\\"Can not perform requested operation on nested resource. Parent resource 'ra-single-linux-vm1' not found.\\\"\\r\\n  }\\r\\n}\"\r\n          }\r\n        ]\r\n      }\r\n    ]\r\n  }\r\n}"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+  error: error executing az
+  status: 1
+  arguments: group deployment create --name bb-04-vmext --subscription cd5890b1-e2d6-4c20-85d4-93efa89ac524 --resource-group AADesignLab0303-RG --template-uri https://raw.githubusercontent.com/mspnp/template-building-blocks/v2.2.0/templates/buildingBlocks/virtualMachineExtensions/virtualMachineExtensions.json --parameters @/home/cemvarol/single-vm-output-04.json
+
+cemvarol@Azure:~$
