@@ -1,0 +1,762 @@
+Requesting a Cloud Shell.Succeeded.
+Connecting terminal...
+
+Welcome to Azure Cloud Shell
+
+Type "az" to use Azure CLI
+Type "help" to learn about Cloud Shell
+
+cemvarol@Azure:~$ RESOURCE_GROUP_APP='AADesignLab0502-RG'
+cemvarol@Azure:~$ read -p 'Region: ' LOCATION
+Region: EastUs
+cemvarol@Azure:~$ az group create --name $RESOURCE_GROUP_APP --location $LOCATION
+{
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG",
+  "location": "eastus",
+  "managedBy": null,
+  "name": "AADesignLab0502-RG",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+cemvarol@Azure:~$ az appservice plan create --is-linux --name "AADesignLab0502-$LOCATION" --resource-group $RESOURCE_GROUP_APP --location $LOCATION --sku B2
+{- Finished ..
+  "freeOfferExpirationTime": "2020-07-07T16:14:17.123333",
+  "geoRegion": "East US",
+  "hostingEnvironmentProfile": null,
+  "hyperV": false,
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/serverfarms/AADesignLab0502-EastUs",
+  "isSpot": false,
+  "isXenon": false,
+  "kind": "linux",
+  "location": "East US",
+  "maximumElasticWorkerCount": 1,
+  "maximumNumberOfWorkers": 3,
+  "name": "AADesignLab0502-EastUs",
+  "numberOfSites": 0,
+  "perSiteScaling": false,
+  "provisioningState": "Succeeded",
+  "reserved": true,
+  "resourceGroup": "AADesignLab0502-RG",
+  "sku": {
+    "capabilities": null,
+    "capacity": 1,
+    "family": "B",
+    "locations": null,
+    "name": "B2",
+    "size": "B2",
+    "skuCapacity": null,
+    "tier": "Basic"
+  },
+  "spotExpirationTime": null,
+  "status": "Ready",
+  "subscription": "cd5890b1-e2d6-4c20-85d4-93efa89ac524",
+  "tags": null,
+  "targetWorkerCount": 0,
+  "targetWorkerSizeId": 0,
+  "type": "Microsoft.Web/serverfarms",
+  "workerTierName": null
+}
+cemvarol@Azure:~$ az webapp list-runtimes --linux --output tsv
+
+RUBY|2.3.8
+RUBY|2.4.5
+RUBY|2.5.5
+RUBY|2.6.2
+NODE|lts
+NODE|12-lts
+NODE|10-lts
+NODE|8-lts
+NODE|6-lts
+NODE|4.4
+NODE|4.5
+NODE|4.8
+NODE|6.2
+NODE|6.6
+NODE|6.9
+NODE|6.10
+NODE|6.11
+NODE|8.0
+NODE|8.1
+NODE|8.2
+NODE|8.8
+NODE|8.9
+NODE|8.11
+NODE|8.12
+NODE|9.4
+NODE|10.1
+NODE|10.10
+NODE|10.12
+NODE|10.14
+NODE|10.16
+NODE|12.9
+PHP|5.6
+PHP|7.2
+PHP|7.3
+DOTNETCORE|1.0
+DOTNETCORE|1.1
+DOTNETCORE|2.0
+DOTNETCORE|2.1
+DOTNETCORE|2.2
+DOTNETCORE|3.0
+DOTNETCORE|LTS
+DOTNETCORE|Latest
+TOMCAT|8.5-jre8
+TOMCAT|9.0-jre8
+JAVA|8-jre8
+WILDFLY|14-jre8
+TOMCAT|8.5-java11
+TOMCAT|9.0-java11
+JAVA|11-java11
+PYTHON|3.8
+PYTHON|3.7
+PYTHON|3.6
+PYTHON|2.7
+cemvarol@Azure:~$
+cemvarol@Azure:~$ WEBAPPNAME1=webapp05021$RANDOM$RANDOM
+cemvarol@Azure:~$ az webapp create --name $WEBAPPNAME1 --plan AADesignLab0502-$LOCATION --resource-group $RESOURCE_GROUP_APP --runtime "DOTNETCORE|2.1"
+{- Finished ..
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "cloningInfo": null,
+  "containerSize": 0,
+  "dailyMemoryTimeQuota": 0,
+  "defaultHostName": "webapp05021316278278.azurewebsites.net",
+  "enabled": true,
+  "enabledHostNames": [
+    "webapp05021316278278.azurewebsites.net",
+    "webapp05021316278278.scm.azurewebsites.net"
+  ],
+  "ftpPublishingUrl": "ftp://waws-prod-blu-147.ftp.azurewebsites.windows.net/site/wwwroot",
+  "hostNameSslStates": [
+    {
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "webapp05021316278278.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    },
+    {
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "webapp05021316278278.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "webapp05021316278278.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": false,
+  "hyperV": false,
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/sites/webapp05021316278278",
+  "identity": null,
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "kind": "app,linux",
+  "lastModifiedTimeUtc": "2020-06-07T16:15:12.316666",
+  "location": "East US",
+  "maxNumberOfWorkers": null,
+  "name": "webapp05021316278278",
+  "outboundIpAddresses": "40.71.11.134,40.117.215.11,40.76.9.115,13.68.199.96,40.117.113.125",
+  "possibleOutboundIpAddresses": "40.71.11.134,40.117.215.11,40.76.9.115,13.68.199.96,40.117.113.125,40.114.121.56,13.68.202.75,40.76.0.204,40.76.10.230,40.76.27.228",
+  "redundancyMode": "None",
+  "repositorySiteName": "webapp05021316278278",
+  "reserved": true,
+  "resourceGroup": "AADesignLab0502-RG",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/serverfarms/AADesignLab0502-EastUs",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityID": null,
+    "alwaysOn": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "limits": null,
+    "linuxFxVersion": null,
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 0,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": null,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmType": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "suspendedTill": null,
+  "tags": null,
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal"
+}
+
+#FROM HERE STARTS EXERCISE 2
+
+cemvarol@Azure:~$ RESOURCE_GROUP_APP='AADesignLab0502-RG'
+cemvarol@Azure:~$ LOCATION=$(az group list --query "[?name == 'AADesignLab0502-RG'].location" --output tsv)
+cemvarol@Azure:~$ WEBAPPNAME2=webapp05022$RANDOM$RANDOM
+cemvarol@Azure:~$ az webapp create --name $WEBAPPNAME2 --plan AADesignLab0502-$LOCATION --resource-group $RESOURCE_GROUP_APP --runtime "NODE|9.4"
+{- Finished ..
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "cloningInfo": null,
+  "containerSize": 0,
+  "dailyMemoryTimeQuota": 0,
+  "defaultHostName": "webapp050222852215140.azurewebsites.net",
+  "enabled": true,
+  "enabledHostNames": [
+    "webapp050222852215140.azurewebsites.net",
+    "webapp050222852215140.scm.azurewebsites.net"
+  ],
+  "ftpPublishingUrl": "ftp://waws-prod-blu-147.ftp.azurewebsites.windows.net/site/wwwroot",
+  "hostNameSslStates": [
+    {
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "webapp050222852215140.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    },
+    {
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "webapp050222852215140.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "webapp050222852215140.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": false,
+  "hyperV": false,
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/sites/webapp050222852215140",
+  "identity": null,
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "kind": "app,linux",
+  "lastModifiedTimeUtc": "2020-06-07T16:16:18.783333",
+  "location": "East US",
+  "maxNumberOfWorkers": null,
+  "name": "webapp050222852215140",
+  "outboundIpAddresses": "40.71.11.134,40.117.215.11,40.76.9.115,13.68.199.96,40.117.113.125",
+  "possibleOutboundIpAddresses": "40.71.11.134,40.117.215.11,40.76.9.115,13.68.199.96,40.117.113.125,40.114.121.56,13.68.202.75,40.76.0.204,40.76.10.230,40.76.27.228",
+  "redundancyMode": "None",
+  "repositorySiteName": "webapp050222852215140",
+  "reserved": true,
+  "resourceGroup": "AADesignLab0502-RG",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/serverfarms/AADesignLab0502-EastUs",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityID": null,
+    "alwaysOn": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "limits": null,
+    "linuxFxVersion": null,
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 0,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": null,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmType": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "suspendedTill": null,
+  "tags": null,
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal"
+}
+cemvarol@Azure:~$
+cemvarol@Azure:~$
+cemvarol@Azure:~$ REPOSITORY_URL='https://github.com/Azure-Samples/nodejs-docs-hello-world'
+cemvarol@Azure:~$ REPOSITORY_URL_REGEX="$(echo $REPOSITORY_URL | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')"
+cemvarol@Azure:~$ sed -i.bak1 's/"$WEBAPPNAME2"/"'"$WEBAPPNAME2"'"/' ~/parameters.json
+cemvarol@Azure:~$ sed -i.bak2 's/"$REPOSITORY_URL"/"'"$REPOSITORY_URL_REGEX"'"/' ~/parameters.json
+cemvarol@Azure:~$ cat ~/parameters.json
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webAppName": {
+      "value": "webapp050222852215140"
+    },
+    "repositoryUrl": {
+      "value": "https://github.com/Azure-Samples/nodejs-docs-hello-world"
+    },
+    "branch": {
+      "value": "master"
+    }
+  }
+}cemvarol@Azure:~$ az group deployment create --resource-group $RESOURCE_GROUP_APP --template-file github.json --parameters @parameters.json
+This command is implicitly deprecated because command group 'group deployment' is deprecated and will be removed in a future release. Use 'deployment group' instead.
+{- Finished ..
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Resources/deployments/github",
+  "location": null,
+  "name": "github",
+  "properties": {
+    "correlationId": "9943b291-d89f-452e-91ce-6bf1e5d585f6",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/Sites/webapp050222852215140",
+            "resourceGroup": "AADesignLab0502-RG",
+            "resourceName": "webapp050222852215140",
+            "resourceType": "Microsoft.Web/Sites"
+          }
+        ],
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/sites/webapp050222852215140/sourcecontrols/web",
+        "resourceGroup": "AADesignLab0502-RG",
+        "resourceName": "webapp050222852215140/web",
+        "resourceType": "Microsoft.Web/sites/sourcecontrols"
+      }
+    ],
+    "duration": "PT1M57.6272055S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/sites/webapp050222852215140",
+        "resourceGroup": "AADesignLab0502-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/sites/webapp050222852215140/sourcecontrols/web",
+        "resourceGroup": "AADesignLab0502-RG"
+      }
+    ],
+    "outputs": null,
+    "parameters": {
+      "branch": {
+        "type": "String",
+        "value": "master"
+      },
+      "repositoryUrl": {
+        "type": "String",
+        "value": "https://github.com/Azure-Samples/nodejs-docs-hello-world"
+      },
+      "webAppName": {
+        "type": "String",
+        "value": "webapp050222852215140"
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Web",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "sites"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "sites/sourcecontrols"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "12723661311025217583",
+    "templateLink": null,
+    "timestamp": "2020-06-07T16:21:26.381791+00:00"
+  },
+  "resourceGroup": "AADesignLab0502-RG",
+  "type": "Microsoft.Resources/deployments"
+}
+cemvarol@Azure:~$ RESOURCE_GROUP_CONTAINER='AADesignLab0502-RG'
+cemvarol@Azure:~$ LOCATION=$(az group list --query "[?name == 'AADesignLab0502-RG'].location" --output tsv)
+cemvarol@Azure:~$ WEBAPPNAME3=webapp05023$RANDOM$RANDOM
+cemvarol@Azure:~$ az webapp create --name $WEBAPPNAME3 --plan AADesignLab0502-$LOCATION --resource-group $RESOURCE_GROUP_CONTAINER --deployment-container-image ghost
+{- Finished ..
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "cloningInfo": null,
+  "containerSize": 0,
+  "dailyMemoryTimeQuota": 0,
+  "defaultHostName": "webapp050233037817615.azurewebsites.net",
+  "enabled": true,
+  "enabledHostNames": [
+    "webapp050233037817615.azurewebsites.net",
+    "webapp050233037817615.scm.azurewebsites.net"
+  ],
+  "ftpPublishingUrl": "ftp://waws-prod-blu-147.ftp.azurewebsites.windows.net/site/wwwroot",
+  "hostNameSslStates": [
+    {
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "webapp050233037817615.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    },
+    {
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "webapp050233037817615.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "webapp050233037817615.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": false,
+  "hyperV": false,
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/sites/webapp050233037817615",
+  "identity": null,
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "kind": "app,linux,container",
+  "lastModifiedTimeUtc": "2020-06-07T16:22:43.366666",
+  "location": "East US",
+  "maxNumberOfWorkers": null,
+  "name": "webapp050233037817615",
+  "outboundIpAddresses": "40.71.11.134,40.117.215.11,40.76.9.115,13.68.199.96,40.117.113.125",
+  "possibleOutboundIpAddresses": "40.71.11.134,40.117.215.11,40.76.9.115,13.68.199.96,40.117.113.125,40.114.121.56,13.68.202.75,40.76.0.204,40.76.10.230,40.76.27.228",
+  "redundancyMode": "None",
+  "repositorySiteName": "webapp050233037817615",
+  "reserved": true,
+  "resourceGroup": "AADesignLab0502-RG",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0502-RG/providers/Microsoft.Web/serverfarms/AADesignLab0502-EastUs",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityID": null,
+    "alwaysOn": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "limits": null,
+    "linuxFxVersion": null,
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 0,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": null,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmType": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "suspendedTill": null,
+  "tags": null,
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal"
+}
+cemvarol@Azure:~$
+cemvarol@Azure:~$
