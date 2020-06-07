@@ -53,7 +53,7 @@ The task for this exercise is as follows:
 
     - Allow gateway transit: Ensure not checked
     
-1. Confirm Peerings are created on both VNets. 
+1. Confirm **VNet Peerings** are created on both VNets. 
 
 ## Exercise 3: Implementing routing
   
