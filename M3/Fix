@@ -1,9 +1,24 @@
 Run this on ra-single-windows-vm1, powershell
 
-Connect either run command, remote desktop, or Serial Console. 
-
-
-
-
 add-WindowsFeature Web-Server, Web-Mgmt-Tools
 Add-Content -Path "C:\inetpub\wwwroot\Default.htm" -Value $($env:computername)
+
+Connect either run command, remote desktop, or Serial Console. 
+
+Use remote desktop on Azure portal. For RDP
+
+Use Serial Console here down the commands to follow to create serial Console connection. 
+
+EVENT: The CMD command is now available.
+SAC>cmd
+The Command Prompt session was successfully launched.
+SAC>
+EVENT:   A new channel has been created.  Use "ch -?" for channel help.
+Channel: Cmd0001
+SAC>ch -sn cmd0001
+
+Or use run Command, which is available under operations -- Run Command -- Run Powershell Command under ra-single-windows-vm1
+
+
+
+
