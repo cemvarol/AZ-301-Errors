@@ -29,19 +29,19 @@ The task for this exercise is as follows:
 
 #### Task 1: Configure VNet peering for both virtual networks
   
-1. In the Microsoft Edge window displaying the Azure portal, navigate to the **az3000401-vnet** virtual network blade.
+1. In the Microsoft Edge window displaying the Azure portal, navigate to the **Vnet02** virtual network blade.
 
-1. From the **az3000401-vnet** blade, create a VNet peering with the following settings:
+1. From the **Vnet02** blade, create a VNet peering with the following settings:
 
-    - Name of the peering from the first virtual network to the second virtual network: **az3000401-vnet-to-az3000402-vnet**
+    - Name of the peering from the first virtual network to the second virtual network: **Vnet02-to-Vnet01**
 
     - Virtual network deployment model: **Resource manager**
 
     - Subscription: the name of the Azure subscription you are using for this lab
 
-    - Virtual network: **az3000402-vnet**
+    - Virtual network: **Vnet01**
     
-    - Name of the peering from the second virtual network to the first virtual network: **az3000402-vnet-to-az3000401-vnet**    
+    - Name of the peering from the second virtual network to the first virtual network: **Vnet01-to-Vnet02**    
     
     - Allow virtual network access from the first virtual network to the second virtual nework: **Enabled**
     
@@ -66,20 +66,20 @@ The main tasks for this exercise are as follows:
 
 #### Task 1: Enable IP forwarding 
   
-1. In Microsoft Edge, navigate to the **az3000401-vm2-RVMNic** blade (the NIC of **az3000401-vm2-R**)
+1. In Microsoft Edge, navigate to the **VM-RVMNic** blade (the NIC of **VM-R**)
 
-2. On the **az3000401-vm2-RVMNic** blade, modify the **IP configurations** by setting **IP forwarding** to **Enabled**.
+2. On the **VM-RVMNic** blade, modify the **IP configurations** by setting **IP forwarding** to **Enabled**.
 
 
 #### Task 2: Configure user defined routing 
 
 1. In the Azure portal, create a new route table with the following settings:
 
-    - Name: **az3000402-rt1**
+    - Name: **AADLab0801-rt1**
 
     - Subscription: the name of the Azure subscription you use for this lab
 
-    - Resource group: **az3000402-LabRG**
+    - Resource group: **AADLab0801-LabRG**
 
     - Location: the same Azure region in which you created the virtual networks
   
@@ -87,9 +87,9 @@ The main tasks for this exercise are as follows:
     
     Once the creation of the route table has finished, click on **Go to resource**
 
-2. In the Azure portal, on the route table az3000402-rt1 that was created on the previous step, click on **Routes** under **Settings** and add a route with the following settings: 
+2. In the Azure portal, on the route table AADLab0801-rt1 that was created on the previous step, click on **Routes** under **Settings** and add a route with the following settings: 
 
-    - Route name: **custom-route-to-az3000401-vnet**
+    - Route name: **custom-route-to-Vnet02**
 
     - Address prefix: **10.0.0.0/22**
 
@@ -97,12 +97,12 @@ The main tasks for this exercise are as follows:
 
     - Next hop address: **10.0.1.4**
 
-3. In the Azure portal, associate the route table with the **subnet-1** of the **az3000402-vnet**.
+3. In the Azure portal, associate the route table with the **subnet-1** of the **Vnet01**.
 
 
 #### Task 3: Configure routing on an Azure VM running Windows Server 2016
 
-1. On the lab computer, from the Azure portal, start a Remote Desktop session to **az3000401-vm2-R** Azure VM. 
+1. On the lab computer, from the Azure portal, start a Remote Desktop session to **VM-R** Azure VM. 
 
 2. When prompted to authenticate, specify the following credentials:
 
@@ -110,7 +110,7 @@ The main tasks for this exercise are as follows:
 
     - Password: **Pa55w.rd1234**
 
-3. Once you are connected to az3000401-vm2-R via the Remote Desktop session, 
+3. Once you are connected to VM-R via the Remote Desktop session, 
 Run these commands below on **powershell** console of that VM
 
 ---
@@ -141,7 +141,7 @@ The main tasks for this exercise are as follows:
 
 #### Task 1: Configure Windows Firewall with Advanced Security on the target Azure VMs
   
-1. On the lab computer, from the Azure portal, start a Remote Desktop session to **az3000401-vm1** Azure VM. 
+1. On the lab computer, from the Azure portal, start a Remote Desktop session to **VM-A** Azure VM. 
 
 2. When prompted to authenticate, specify the following credentials:
 
@@ -149,13 +149,13 @@ The main tasks for this exercise are as follows:
 
     - Password: **Pa55w.rd1234**
 
-3. In the Remote Desktop session to az3000401-vm1, run the **powershell** command below on that vm
+3. In the Remote Desktop session to VM-A, run the **powershell** command below on that vm
 
 **Set-NetFirewallProfile -Enabled False**
 
 #### Task 2: Test service chaining between peered virtual networks
   
-1. On the lab computer, from the Azure portal, start a Remote Desktop session to **az3000402-vm1** Azure VM. 
+1. On the lab computer, from the Azure portal, start a Remote Desktop session to **VM-B** Azure VM. 
 
 1. When prompted to authenticate, specify the following credentials:
 
@@ -163,7 +163,7 @@ The main tasks for this exercise are as follows:
 
     - Password: **Pa55w.rd1234**
 
-1. Once you are connected to az3000402-vm1 via the Remote Desktop session, start **Windows PowerShell**.
+1. Once you are connected to VM-B via the Remote Desktop session, start **Windows PowerShell**.
 
 1. In the **Windows PowerShell** window, run the following:
 
