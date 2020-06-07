@@ -1,0 +1,349 @@
+Requesting a Cloud Shell.Succeeded.
+Connecting terminal...
+
+cemvarol@Azure:~$ ssh-keygen -t rsa -b 2048
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/cemvarol/.ssh/id_rsa):
+/home/cemvarol/.ssh/id_rsa already exists.
+Overwrite (y/n)?
+cemvarol@Azure:~$ PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+cemvarol@Azure:~$ PUBLIC_KEY_REGEX="$(echo $PUBLIC_KEY | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')"
+cemvarol@Azure:~$ RESOURCE_GROUP='AADesignLab0403-RG'
+cemvarol@Azure:~$ LOCATION=$(az group list --query "[?name == 'AADesignLab0402-RG'].location" --output tsv)
+cemvarol@Azure:~$ SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --name AADesignLab0403-SP --output json)
+Changing "AADesignLab0403-SP" to a valid URI of "http://AADesignLab0403-SP", which is the required format used for service principal names
+Found an existing application instance of "4739a451-66c7-4c2b-a305-064f1a009c96". We will patch it
+Creating a role assignment under the scope of "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524"
+  Role assignment already exists.
+
+cemvarol@Azure:~$ APP_ID=$(echo $SERVICE_PRINCIPAL | jq -r .appId)
+cemvarol@Azure:~$ PASSWORD=$(echo $SERVICE_PRINCIPAL | jq -r .password)
+cemvarol@Azure:~$ sed -i.bak1 's/"$APP_ID"/"'"$APP_ID"'"/' ~/parameters.json
+cemvarol@Azure:~$ sed -i.bak2 's/"$PASSWORD"/"'"$PASSWORD"'"/' ~/parameters.json
+cemvarol@Azure:~$ sed -i.bak3 's/"$PUBLIC_KEY_REGEX"/"'"$PUBLIC_KEY_REGEX"'"/' ~/parameters.json
+cemvarol@Azure:~$ cat ~/parameters.json
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "spClientId": {
+      "value": "4739a451-66c7-4c2b-a305-064f1a009c96"
+    },
+    "spClientSecret": {
+      "value": "bhg6Ei_SfdNImnBqE8gaDNp5829yuSwlT~"
+    },
+    "linuxAdminUsername": {
+      "value": "Student"
+    },
+    "linuxAdminPassword": {
+      "value": "Pa55w.rd1234"
+    },
+    "linuxSSHPublicKey": {
+      "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGu+ZfNMXFxuFforilMLDEcg8STguHnai9lI9wZYfVvn5MaYqJ1EqbXNk0abysDbR/cHACd00Ca/3mqko4EFDKn8RUAnVhnweNoahfGS3dh4ARoMh9ATQ6PXt2tXT3RMY/sFQC0hmSIgNbkzZxX6g/VBkVqK9aPDWrGaCbmNQpRHV7TwJIkAjOUZvuYfsT0KgMr80EIek3uOMfqbSJyuvl2dW9emZRlGCmoLYJBqhHVsnao4ovSZkzN/PQaEHMl0F45c/eRUU1GGUkEt8rWNhPHDMXdYjg0JCarFLmCwAvvd54x8fzyjTmzaUnltpfGPH7EMtudsGVeIWWCdrAlTvx cemvarol@cc-b9469f23-7d88f4d455-wmtrn"
+    }
+  }
+}cemvarol@Azure:~$ az aks get-versions --location $LOCATION --output table
+KubernetesVersion    Upgrades
+-------------------  -------------------------------------------------
+1.18.2(preview)      None available
+1.18.1(preview)      1.18.2(preview)
+1.17.5(preview)      1.18.1(preview), 1.18.2(preview)
+1.17.4(preview)      1.17.5(preview), 1.18.1(preview), 1.18.2(preview)
+1.16.9               1.17.4(preview), 1.17.5(preview)
+1.16.8               1.16.9, 1.17.4(preview), 1.17.5(preview)
+1.15.11              1.16.8, 1.16.9
+1.15.10              1.15.11, 1.16.8, 1.16.9
+1.14.8               1.15.10, 1.15.11
+1.14.7               1.14.8, 1.15.10, 1.15.11
+cemvarol@Azure:~$ az group deployment create --resource-group $RESOURCE_GROUP --template-uri https://raw.githubusercontent.com/MicrosoftLearning/AZ-301-MicrosoftAzureArchitectDesign/master/allfiles/AZ-301T03/Module_02/LabFiles/Starter/azuredeploy.json --parameters ~/parameters.json
+This command is implicitly deprecated because command group 'group deployment' is deprecated and will be removed in a future release. Use 'deployment group' instead.
+
+
+ - Running ..
+
+
+{- Finished ..
+  "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Resources/deployments/azuredeploy",
+  "location": null,
+  "name": "azuredeploy",
+  "properties": {
+    "correlationId": "ed1d4bba-0eaa-4cea-8209-b9c0a7845f4f",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.ContainerRegistry/registries/acrdyx5mjcj3qzmg",
+            "resourceGroup": "AADesignLab0403-RG",
+            "resourceName": "acrdyx5mjcj3qzmg",
+            "resourceType": "Microsoft.ContainerRegistry/registries"
+          },
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/virtualNetworks/virtual-network",
+            "resourceGroup": "AADesignLab0403-RG",
+            "resourceName": "virtual-network",
+            "resourceType": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.DocumentDb/databaseAccounts/cosmosdbdyx5mjcj3qzmg",
+            "resourceGroup": "AADesignLab0403-RG",
+            "resourceName": "cosmosdbdyx5mjcj3qzmg",
+            "resourceType": "Microsoft.DocumentDb/databaseAccounts"
+          },
+          {
+            "actionName": "listCredentials",
+            "apiVersion": "2017-10-01",
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.ContainerRegistry/registries/acrdyx5mjcj3qzmg",
+            "resourceGroup": "AADesignLab0403-RG",
+            "resourceName": "acrdyx5mjcj3qzmg",
+            "resourceType": "Microsoft.ContainerRegistry/registries"
+          },
+          {
+            "actionName": "listKeys",
+            "apiVersion": "2015-04-08",
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.DocumentDb/databaseAccounts/cosmosdbdyx5mjcj3qzmg",
+            "resourceGroup": "AADesignLab0403-RG",
+            "resourceName": "cosmosdbdyx5mjcj3qzmg",
+            "resourceType": "Microsoft.DocumentDb/databaseAccounts"
+          }
+        ],
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Resources/deployments/jenkinsDeployment",
+        "resourceGroup": "AADesignLab0403-RG",
+        "resourceName": "jenkinsDeployment",
+        "resourceType": "Microsoft.Resources/deployments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.DocumentDb/databaseAccounts/cosmosdbdyx5mjcj3qzmg",
+            "resourceGroup": "AADesignLab0403-RG",
+            "resourceName": "cosmosdbdyx5mjcj3qzmg",
+            "resourceType": "Microsoft.DocumentDb/databaseAccounts"
+          },
+          {
+            "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.ContainerService/managedClusters/aksdyx5mjcj3qzmg",
+            "resourceGroup": "AADesignLab0403-RG",
+            "resourceName": "aksdyx5mjcj3qzmg",
+            "resourceType": "Microsoft.ContainerService/managedClusters"
+          }
+        ],
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Resources/deployments/grafanaDeployment",
+        "resourceGroup": "AADesignLab0403-RG",
+        "resourceName": "grafanaDeployment",
+        "resourceType": "Microsoft.Resources/deployments"
+      }
+    ],
+    "duration": "PT21M9.3008715S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Compute/virtualMachines/grafana",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Compute/virtualMachines/grafana/extensions/installGrafana",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Compute/virtualMachines/jenkins",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Compute/virtualMachines/jenkins/extensions/jenkins-ini",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.ContainerRegistry/registries/acrdyx5mjcj3qzmg",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.ContainerService/managedClusters/aksdyx5mjcj3qzmg",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.DocumentDb/databaseAccounts/cosmosdbdyx5mjcj3qzmg",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/networkInterfaces/grafana-nic",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/networkInterfaces/jenkins-nic",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/networkSecurityGroups/grafana-nsg",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/networkSecurityGroups/jenkins-nsg",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/publicIPAddresses/grafana-ip",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/publicIPAddresses/jenkins-ip",
+        "resourceGroup": "AADesignLab0403-RG"
+      },
+      {
+        "id": "/subscriptions/cd5890b1-e2d6-4c20-85d4-93efa89ac524/resourceGroups/AADesignLab0403-RG/providers/Microsoft.Network/virtualNetworks/virtual-network",
+        "resourceGroup": "AADesignLab0403-RG"
+      }
+    ],
+    "outputs": {
+      "azureContainerRegistryUrl": {
+        "type": "String",
+        "value": "acrdyx5mjcj3qzmg.azurecr.io"
+      },
+      "grafanaUrl": {
+        "type": "String",
+        "value": "http://grafanadyx5mjcj3qzmg.eastus.cloudapp.azure.com:3000"
+      },
+      "jenkinsSSH": {
+        "type": "String",
+        "value": "ssh -L 8080:localhost:8080 Student@jenkinsdyx5mjcj3qzmg.eastus.cloudapp.azure.com"
+      },
+      "jenkinsURL": {
+        "type": "String",
+        "value": "http://jenkinsdyx5mjcj3qzmg.eastus.cloudapp.azure.com"
+      },
+      "kubernetesControlPlaneFQDN": {
+        "type": "String",
+        "value": "kubernetesdyx5mjcj3qzmg-2a293c6d.hcp.eastus.azmk8s.io"
+      }
+    },
+    "parameters": {
+      "linuxAdminPassword": {
+        "type": "SecureString"
+      },
+      "linuxAdminUsername": {
+        "type": "String",
+        "value": "Student"
+      },
+      "linuxSSHPublicKey": {
+        "type": "String",
+        "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGu+ZfNMXFxuFforilMLDEcg8STguHnai9lI9wZYfVvn5MaYqJ1EqbXNk0abysDbR/cHACd00Ca/3mqko4EFDKn8RUAnVhnweNoahfGS3dh4ARoMh9ATQ6PXt2tXT3RMY/sFQC0hmSIgNbkzZxX6g/VBkVqK9aPDWrGaCbmNQpRHV7TwJIkAjOUZvuYfsT0KgMr80EIek3uOMfqbSJyuvl2dW9emZRlGCmoLYJBqhHVsnao4ovSZkzN/PQaEHMl0F45c/eRUU1GGUkEt8rWNhPHDMXdYjg0JCarFLmCwAvvd54x8fzyjTmzaUnltpfGPH7EMtudsGVeIWWCdrAlTvx cemvarol@cc-b9469f23-7d88f4d455-wmtrn"
+      },
+      "spClientId": {
+        "type": "String",
+        "value": "4739a451-66c7-4c2b-a305-064f1a009c96"
+      },
+      "spClientSecret": {
+        "type": "SecureString"
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.ContainerRegistry",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "registries"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.DocumentDb",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "databaseAccounts"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.Network",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "virtualNetworks"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.ContainerService",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "managedClusters"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "5023631743415784969",
+    "templateLink": {
+      "contentVersion": "1.0.0.0",
+      "uri": "https://raw.githubusercontent.com/MicrosoftLearning/AZ-301-MicrosoftAzureArchitectDesign/master/allfiles/AZ-301T03/Module_02/LabFiles/Starter/azuredeploy.json"
+    },
+    "timestamp": "2020-06-07T14:05:54.962582+00:00"
+  },
+  "resourceGroup": "AADesignLab0403-RG",
+  "type": "Microsoft.Resources/deployments"
+}
+cemvarol@Azure:~$
+cemvarol@Azure:~$
+cemvarol@Azure:~$
+cemvarol@Azure:~$
+cemvarol@Azure:~$
+cemvarol@Azure:~$

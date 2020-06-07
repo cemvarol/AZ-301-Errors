@@ -1,0 +1,3 @@
+CTRL+C and go for step 5 because command stuck forever
+
+Same stuff with step 6 on the same task, same exercise
