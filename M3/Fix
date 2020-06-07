@@ -7,6 +7,8 @@ Connect either run command, remote desktop, or Serial Console.
 
 Use remote desktop on Azure portal. For RDP
 
+OR 
+----------------------------------------------------------------------------------------
 Use Serial Console here down the commands to follow to create serial Console connection. 
 
 EVENT: The CMD command is now available.
@@ -16,8 +18,11 @@ SAC>
 EVENT:   A new channel has been created.  Use "ch -?" for channel help.
 Channel: Cmd0001
 SAC>ch -sn cmd0001
-
-Or use run Command, which is available under operations -- Run Command -- Run Powershell Command under ra-single-windows-vm1
+----------------------------------------------------------------------------------------
+OR
+----------------------------------------------------------------------------------------
+use run Command, which is available under operations -- Run Command -- Run Powershell Command under ra-single-windows-vm1
+----------------------------------------------------------------------------------------
 
 
 
