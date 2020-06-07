@@ -89,7 +89,7 @@ The main tasks for this exercise are as follows:
 
 2. In the Azure portal, on the route table AADLab0801-rt1 that was created on the previous step, click on **Routes** under **Settings** and add a route with the following settings: 
 
-    - Route name: **Custom-route-to-VNet02-Subnet02**
+    - Route name: **Custom-route-to-VNet02-Subnet01**
 
     - Address prefix: **10.1.1.0/24**
 
