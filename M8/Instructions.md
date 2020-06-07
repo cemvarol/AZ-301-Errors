@@ -207,7 +207,8 @@ The main tasks for this exercise are as follows:
 
     - In the  **Destination IP Address** replace **10.1.1.4** with **10.2.2.4**.
     
-      - Ensure that the result shows **Next Hop Type** as **Virtual Network Peering **. This means traffic is passing over VNet Peering from VM-A to VM-X
+      - Ensure that the result shows **Next Hop Type** as **Virtual Network Peering**. This means traffic is passing over VNet Peering from VM-A to VM-X
+
 
     > **Note**: This last task proves that Route Table associated with VN01SN01 is only working from that subnet to its target 10.1.1.0/24 network. When you try to reach 10.2.2.0/24 subnet, VNet Peering still at large. 
 
