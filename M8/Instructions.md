@@ -97,7 +97,7 @@ The main tasks for this exercise are as follows:
 
     - Next hop address: **172.16.2.4**
 
-3. In the Azure portal, associate the route table with the **subnet-1** of the **VNet01**.
+3. In the Azure portal, associate the route table with the **Subnet-1** of the **VNet01**, which is **VN01SN01**
 
 
 #### Task 3: Configure routing on an Azure VM running Windows Server 2016
