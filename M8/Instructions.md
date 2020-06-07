@@ -93,7 +93,7 @@ The main tasks for this exercise are as follows:
 
     - Route name: **Custom-route-to-VNet02-Subnet01**
 
-    - Address prefix: **172.16.1.0/24**
+    - Address prefix: **10.1.1.0/24**
 
     - Next hop type: **Virtual appliance**
 
@@ -151,7 +151,7 @@ The main tasks for this exercise are as follows:
 
     - Password: **Pa55w.rd1234**
 
-3. In the Remote Desktop session to VM-A, run the **powershell** command below on that vm
+3. In the Remote Desktop session to VM-B, run the **powershell** command below on that vm
 
 **Set-NetFirewallProfile -Enabled False**
 
@@ -165,14 +165,14 @@ The main tasks for this exercise are as follows:
 
     - Password: **Pa55w.rd1234**
 
-1. Once you are connected to VM-B via the Remote Desktop session, start **Windows PowerShell**.
+1. Once you are connected to VM-A via the Remote Desktop session, start **Windows PowerShell**.
 
 1. In the **Windows PowerShell** window, run the following:
 
    ```pwsh
    Set-NetFirewallProfile -Enabled False
    
-   Test-NetConnection -ComputerName 172.16.1.4 -TraceRoute
+   Test-NetConnection -ComputerName 10.1.1.4 -TraceRoute
    ```
 
 1. Verify that test is successful and note that the connection was routed over 172.16.2.4
