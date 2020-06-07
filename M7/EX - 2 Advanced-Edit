@@ -1,0 +1,42 @@
+[
+  {
+    "name": "CosmosDB:AuthorizationKey",
+    "value": "3DgSzW6pKtATVcuzhJzqkDQprrq05997w332DJT2HyvLUhHarJsvItALJibd1vpJvHxdN5sQ98U7J0dVT3o4Tw==",
+    "slotSetting": false
+  },
+  {
+    "name": "CosmosDB:CollectionId",
+    "value": "MemberCollection",
+    "slotSetting": false
+  },
+  {
+    "name": "CosmosDB:DatabaseId",
+    "value": "FinancialClubDatabase",
+    "slotSetting": false
+  },
+  {
+    "name": "CosmosDB:EndpointUrl",
+    "value": "AccountEndpoint=https://cvaz062001cosmos.documents.azure.com:443/;AccountKey=3DgSzW6pKtATVcuzhJzqkDQprrq05997w332DJT2HyvLUhHarJsvItALJibd1vpJvHxdN5sQ98U7J0dVT3o4Tw==;",
+    "slotSetting": false
+  },
+  {
+    "name": "CosmosDB:StoredProcedureId",
+    "value": "genDocuments",
+    "slotSetting": false
+  },
+  {
+    "name": "Search:AccountName",
+    "value": "",
+    "slotSetting": false
+  },
+  {
+    "name": "Search:IndexId",
+    "value": "memberindex",
+    "slotSetting": false
+  },
+  {
+    "name": "Search:QueryKey",
+    "value": "",
+    "slotSetting": false
+  }
+]
