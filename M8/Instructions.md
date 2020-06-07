@@ -170,10 +170,10 @@ The main tasks for this exercise are as follows:
    ```pwsh
    Set-NetFirewallProfile -Enabled False
    
-   Test-NetConnection -ComputerName 10.0.0.4 -TraceRoute
+   Test-NetConnection -ComputerName 172.16.1.4 -TraceRoute
    ```
 
-1. Verify that test is successful and note that the connection was routed over 10.0.1.4
+1. Verify that test is successful and note that the connection was routed over 172.16.2.4
 
 >  **Result**: After completing this exercise, you should have validated service chaining between peered virtual networks.
 
@@ -184,7 +184,7 @@ The main tasks for this exercise are as follows:
 
 
    ```sh
-   az group list --query "[?starts_with(name,'az30004')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+   az group list --query "[?starts_with(name,'AADLab08')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
 
 1. Close the **Cloud Shell** prompt at the bottom of the portal.
