@@ -175,7 +175,7 @@ The main tasks for this exercise are as follows:
    Test-NetConnection -ComputerName 10.1.1.4 -TraceRoute
    ```
 
-1. Verify that test is successful and note that the connection was routed over 172.16.2.4
+1. Verify that test is successful and note that the connection was routed over **172.16.2.4**
 
 >  **Result**: After completing this exercise, you should have validated service chaining between peered virtual networks.
 
