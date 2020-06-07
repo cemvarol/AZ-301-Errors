@@ -179,6 +179,36 @@ The main tasks for this exercise are as follows:
 
 >  **Result**: After completing this exercise, you should have validated service chaining between peered virtual networks.
 
+Task 3: Verify connectivity between spokes
+In the hub menu in the Azure portal, click All services.
+
+In the All services menu, in the Filter text box, type Network Watcher and press Enter.
+
+In the list of results, click Network Watcher.
+
+On the Network Watcher blade, in the NETWORK DIAGNOSTIC TOOLS section, click Connection troubleshoot.
+
+On the Network Watcher - Connection troubleshoot blade, perform the following tasks:
+
+Leave the Subscription drop-down list entry set to its default value.
+
+In the Resource group drop-down list, select the AADesignLab08-spoke1-vnet-rg entry.
+
+In the Virtual machine drop-down list, leave the default entry.
+
+Ensure that the Destination option is set to Specify manually.
+
+In the URI, FQDN, or IPv4 text box, type 10.2.0.68 entry.
+
+In the Destination Port text, type 3389.
+
+Click the Check button.
+
+Wait until results of the connectivity check are returned and verify that the status is Reachable.
+
+Note: If this is the first time you are using Network Watcher, the check can take up to 5 minutes.
+
+
 ## Exercise 5: Remove lab resources
 
 
