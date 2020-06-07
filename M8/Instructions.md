@@ -29,19 +29,19 @@ The task for this exercise is as follows:
 
 #### Task 1: Configure VNet peering for both virtual networks
   
-1. In the Microsoft Edge window displaying the Azure portal, navigate to the **Vnet02** virtual network blade.
+1. In the Microsoft Edge window displaying the Azure portal, navigate to the **VNet02** virtual network blade.
 
-1. From the **Vnet02** blade, create a VNet peering with the following settings:
+1. From the **VNet02** blade, create a VNet peering with the following settings:
 
-    - Name of the peering from the first virtual network to the second virtual network: **Vnet02-to-Vnet01**
+    - Name of the peering from the first virtual network to the second virtual network: **VNet02-to-VNet01**
 
     - Virtual network deployment model: **Resource manager**
 
     - Subscription: the name of the Azure subscription you are using for this lab
 
-    - Virtual network: **Vnet01**
+    - Virtual network: **VNet01**
     
-    - Name of the peering from the second virtual network to the first virtual network: **Vnet01-to-Vnet02**    
+    - Name of the peering from the second virtual network to the first virtual network: **VNet01-to-VNet02**    
     
     - Allow virtual network access from the first virtual network to the second virtual nework: **Enabled**
     
@@ -89,7 +89,7 @@ The main tasks for this exercise are as follows:
 
 2. In the Azure portal, on the route table AADLab0801-rt1 that was created on the previous step, click on **Routes** under **Settings** and add a route with the following settings: 
 
-    - Route name: **custom-route-to-Vnet02**
+    - Route name: **custom-route-to-VNet02**
 
     - Address prefix: **10.0.0.0/22**
 
@@ -97,7 +97,7 @@ The main tasks for this exercise are as follows:
 
     - Next hop address: **10.0.1.4**
 
-3. In the Azure portal, associate the route table with the **subnet-1** of the **Vnet01**.
+3. In the Azure portal, associate the route table with the **subnet-1** of the **VNet01**.
 
 
 #### Task 3: Configure routing on an Azure VM running Windows Server 2016
