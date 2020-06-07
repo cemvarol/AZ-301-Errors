@@ -189,7 +189,7 @@ The main tasks for this exercise are as follows:
 
     - Leave the **Subscription** drop-down list entry set to its default value.
 
-    - In the **Resource group** drop-down list, select the **AADLab0801-LabRGg** entry.
+    - In the **Resource group** drop-down list, select the **AADLab0801-LabRG** entry.
 
     - In the **Virtual machine** drop-down list, choose **VM-A**.
     
@@ -203,7 +203,7 @@ The main tasks for this exercise are as follows:
 
     - In the  **Destination IP Address** replace **10.1.1.4** with **10.2.2.4**.
     
-      - Ensure that the result shows **Next Hop Type** as **Virtual Network Peering**. This means traffic is passing over VNet Peering from VM-A to VM-X
+      - Ensure that the result shows **Next Hop Type** as **VirtualNetworkPeering**. This means traffic is passing over VNet Peering from VM-A to VM-X
 
 
 > **Result**: This last task proves that Route Table associated with VN01SN01 is only working from that subnet to its target 10.1.1.0/24 subnet. When you try to reach a resource from 10.2.2.0/24 subnet, packages are transferred over VNet Peering still. 
