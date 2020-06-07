@@ -52,6 +52,8 @@ The task for this exercise is as follows:
     - Allow forwarded traffic from the second virtual network to the first virtual network: **Disabled**
 
     - Allow gateway transit: Ensure not checked
+    
+1. Confirm Peerings are created on both VNets. 
 
 ## Exercise 3: Implementing routing
   
