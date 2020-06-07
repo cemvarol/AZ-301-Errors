@@ -51,7 +51,7 @@ The task for this exercise is as follows:
     
     - Allow forwarded traffic from the second virtual network to the first virtual network: **Disabled**
 
-    - Allow gateway transit: Ensure it not checked
+    - Allow gateway transit: Ensure not checked
 
 ## Exercise 3: Implementing routing
   
