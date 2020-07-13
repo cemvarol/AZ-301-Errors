@@ -1,7 +1,7 @@
 
-## 7th Module on the labs order, 301-T02A Mod2 Exercise Outputs errors. 
+## 7th Module on the labs order, 301-T02A Mod2. 
 
-# This Lab can not be completed, you can check throuhg screenshots...
+## This Lab can not be completed, you can check through screenshots...
 
 ### Cleanup command after the Lab 7 down below
 az group list --query "[?starts_with(name,'AADesignLab07')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
