@@ -129,7 +129,9 @@ Run these commands below on **powershell** console of that VM
 
 ----
 
-4. Follow the steps to complete RRAS setting... Check this image down below![](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/RouterConf.png)
+4. Follow the steps to complete RRAS setting... Check this image down below
+
+![](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/RouterConf.png)
 
 
 
