@@ -210,6 +210,8 @@ The main tasks for this exercise are as follows:
 
 > **Result**: This last task proves that Route Table associated with VN01SN01 is only working from that subnet to its target 10.1.1.0/24 subnet. When you try to reach a resource from 10.2.2.0/24 subnet, packages are transferred over VNet Peering still. 
 
+![](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/Result.png)
+
 ## Exercise 5: Remove lab resources
 
 
