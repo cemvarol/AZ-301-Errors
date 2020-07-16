@@ -18,11 +18,7 @@ Password: **Pa55w.rd**
 
 1. From the Cloud Shell pane, open a bash command line and run the script shown below
 
-Please Check this script [Create Resources](
-
-
-
-s://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/CreateResources)
+Please Check this script [Create Resources](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/CreateResources)
 
 ## Exercise 2: Configuring VNet peering 
 
