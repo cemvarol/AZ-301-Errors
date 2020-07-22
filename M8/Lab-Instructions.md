@@ -167,7 +167,7 @@ The main tasks for this exercise are as follows:
 
     - Password: **Pa55w.rd1234**
 
-1. Once you are connected to VM-A via the Remote Desktop session, start **Windows PowerShell**.
+1. Once you are connected to **VM-A** via the Remote Desktop session, start **Windows PowerShell**.
 
 1. In the **Windows PowerShell** window, run the following:
 
@@ -176,6 +176,9 @@ The main tasks for this exercise are as follows:
    
    Test-NetConnection -ComputerName 10.1.1.4 -TraceRoute
    ```
+   Check this image down below
+   
+ ![](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/VM-A-TraceResults.png)
 
 1. Verify that test is successful and note that the connection was routed over **172.16.2.4**
 
