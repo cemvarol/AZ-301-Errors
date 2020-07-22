@@ -167,7 +167,7 @@ The main tasks for this exercise are as follows:
 
     - Password: **Pa55w.rd1234**
 
-1. Once you are connected to VM-A via the Remote Desktop session, start **Windows PowerShell**.
+1. Once you are connected to **VM-A** via the Remote Desktop session, start **Windows PowerShell**.
 
 1. In the **Windows PowerShell** window, run the following:
 
@@ -176,8 +176,12 @@ The main tasks for this exercise are as follows:
    
    Test-NetConnection -ComputerName 10.1.1.4 -TraceRoute
    ```
+5. Verify that test is successful and note that the connection was routed over **172.16.2.4**
 
-1. Verify that test is successful and note that the connection was routed over **172.16.2.4**
+   Check this image down below
+   
+ ![](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/VM-A-TraceResults.png)
+
 
 >  **Result**: After completing this exercise, you should have validated service chaining between peered virtual networks.
 
@@ -210,7 +214,10 @@ The main tasks for this exercise are as follows:
 
 > **Result**: This last task proves that Route Table associated with VN01SN01 is only working from that subnet to its target 10.1.1.0/24 subnet. When you try to reach a resource from 10.2.2.0/24 subnet, packages are transferred over VNet Peering still. 
 
+
 ![](https://raw.githubusercontent.com/cemvarol/AZ-301-Updates-Errors/master/M8/Result.png)
+
+
 
 ## Exercise 5: Remove lab resources
 
